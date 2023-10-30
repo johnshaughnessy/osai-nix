@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
 
@@ -62,9 +62,19 @@
   #   wget
   # ];
   environment.systemPackages = with pkgs; [
-    vim
+    docker
+    docker-compose
     git
+    github-cli
+    htop
+    jq
+    nvtop
+    vim
     wget
+  ];
+
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "cudatoolkit"
   ];
 
 
