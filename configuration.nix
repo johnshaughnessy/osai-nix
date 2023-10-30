@@ -1,33 +1,27 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running `nixos-help`).
-
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
 
-  # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.luks.devices = {
+    lvm_crypt = {
+      device = "/dev/disk/by-uuid/03e16dc0-a0d8-45dd-b93c-254194e084d6";
+      preLVM = true;
+    };
+  };
 
-  # networking.hostName = "nixos"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.hostName = "osai-yoda";
+  networking.networkmanager.enable = true;
 
-  # Set your time zone.
-  # time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "America/New_York";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
   # console = {
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";
@@ -36,9 +30,6 @@
 
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
-
-
-  
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
@@ -70,6 +61,12 @@
   #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #   wget
   # ];
+  environment.systemPackages = with pkgs; [
+    vim
+    git
+    wget
+  ];
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -79,15 +76,17 @@
   #   enableSSHSupport = true;
   # };
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = true;
+    };
+  };
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
+  networking.firewall.allowedTCPPorts = [ 22 ];
+  networking.firewall.allowedUDPPorts = [];
   # networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
@@ -108,32 +107,10 @@
     extraOptions = "experimental-features = nix-command flakes";
   };
 
-  boot.initrd.luks.devices = {
-    lvm_crypt = {
-      device = "/dev/disk/by-uuid/03e16dc0-a0d8-45dd-b93c-254194e084d6";
-      preLVM = true;
-    };
-  };
-
-  environment.systemPackages = with pkgs; [
-    vim
-    git
-  ];
 
   users.users.john = {
     isNormalUser = true;
     home = "/home/john";
     extraGroups = [ "wheel" ];
   };
-
-  services.openssh = {
-    enable = true;
-    settings = {
-      PermitRootLogin = "no";
-      PasswordAuthentication = true;
-    };
-  };
-
-  networking.firewall.allowedTCPPorts = [ 22 ];
 }
-
