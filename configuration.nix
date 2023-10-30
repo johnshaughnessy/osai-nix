@@ -103,6 +103,11 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
 
+  nix = {
+    package = pkgs.nixFlakes;
+    extraOptions = "experimental-features = nix-command flakes";
+  };
+
   boot.initrd.luks.devices = {
     lvm_crypt = {
       device = "/dev/disk/by-uuid/03e16dc0-a0d8-45dd-b93c-254194e084d6";
