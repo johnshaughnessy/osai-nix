@@ -25,5 +25,14 @@
             ps.sentencepiece
             ps.jupyterlab
           ]);
-      in { devShell = pkgs.mkShell { buildInputs = [ pythonEnv ]; }; });
+      in {
+        devShell = pkgs.mkShell {
+          buildInputs = [ pythonEnv ];
+          shellHook = ''
+            strippedPS1=$(echo -n "$PS1" | sed 's/^\\n//')
+            export PS1="(jupyter) $strippedPS1"
+          '';
+        };
+      });
+
 }
