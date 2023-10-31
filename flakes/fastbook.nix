@@ -34,13 +34,15 @@
             # Install fastbook
             pip install fastbook
 
-            export LD_LIBRARY_PATH=/nix/store/9fy9zzhf613xp0c3jsjxbjq6yp8afrsv-gcc-12.3.0-lib/lib:$LD_LIBRARY_PATH
 
-            # Set CUDA environment variables if necessary
-            export CUDA_HOME=${pkgs.cudatoolkit_11}
-            export LD_LIBRARY_PATH=${pkgs.cudatoolkit.lib}/lib
+            export CUDA_HOME=${pkgs.cudatoolkit}
+            export LD_LIBRARY_PATH=${pkgs.cudatoolkit.lib}/lib:$LD_LIBRARY_PATH
             export LD_LIBRARY_PATH=${pkgs.cudaPackages.cudnn}/lib:$LD_LIBRARY_PATH
-            export LD_LIBRARY_PATH=${pkgs.gcc}/lib:$LD_LIBRARY_PATH
+
+            # Need to explicitly add the GCC library path to LD_LIBRARY_PATH, but since pkgs.gcc is a wrapper,
+            # We need to find where the library is first.
+            export GCC_LIB_PATH=$(find /nix/store -name libstdc++.so.6 -path "*gcc-12.2.0*" -print -quit | xargs dirname)
+            export LD_LIBRARY_PATH=$GCC_LIB_PATH:$LD_LIBRARY_PATH
           '';
         };
       });
