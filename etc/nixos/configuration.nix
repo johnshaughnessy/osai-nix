@@ -44,7 +44,6 @@
     docker
     docker-compose
     git
-    github-cli
     htop
     vim
     wget

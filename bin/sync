@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 pushd "$HOME/osai-nix" || exit 1
+branch=${1:-main}
 git fetch origin
-git reset --hard origin/main
+git checkout "$branch"
+git reset --hard "origin/$branch"
 popd
 
 # Backup current /etc/nixos configurations

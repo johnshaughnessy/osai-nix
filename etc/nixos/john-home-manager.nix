@@ -2,7 +2,24 @@
 
 {
   home-manager.users.john = {
-    home.packages = with pkgs; [ xorg.xauth dunst i3 jq nvtop ];
+    home.packages = with pkgs; [
+      dunst
+      github-cli
+      i3
+      jq
+      nvtop
+      python3
+      python3Packages.jupyter
+      python3Packages.jupyter_client
+      python3Packages.jupyterhub
+      python3Packages.jupyterlab
+      python3Packages.notebook
+      python3Packages.pip
+      python3Packages.pytorch
+      python3Packages.tensorflow
+      wget
+      xorg.xauth
+    ];
 
     services.dunst = {
       enable = true;
