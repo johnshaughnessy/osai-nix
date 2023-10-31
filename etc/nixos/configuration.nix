@@ -11,7 +11,7 @@
     };
   };
 
-  networking.hostName = "osai-iroh";
+  networking.hostName = "osai-fig";
   networking.networkmanager.enable = true;
 
 
