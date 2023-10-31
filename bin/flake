@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Exit if any command fails
+set -e
+
+# Navigate to osai-nix directory
+pushd "$HOME/osai-nix" || exit 1
+
+# Fetch and reset to the specified branch
+git fetch origin
+git checkout "main"
+git reset --hard "origin/main"
+
+# Go back to the original directory
+popd
+
+# Check if the first argument is empty
+if [ -z "$1" ]; then
+    echo "No flake specified."
+    exit 1
+fi
+
+# Remove existing flake.nix if it exists
+rm -f ./flake.nix
+
+# Copy the new flake.nix
+cp "$HOME/osai-nix/flakes/$1" ./flake.nix
+
+# Enter the development environment
+nix develop
