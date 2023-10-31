@@ -30,8 +30,17 @@
           buildInputs = [ pythonEnv ];
           shellHook = ''
             strippedPS1=$(echo -n "$PS1" | sed 's/^\\n//')
+
             export PS1="(jupyter) $strippedPS1"
-            ${pythonEnv}/bin/pip install --user fastbook # Add fastbook
+
+            # Create a Python virtual environment
+            python -m venv .venv
+
+            # Activate the virtual environment
+            source .venv/bin/activate
+
+            # Install fastbook
+            pip install fastbook
           '';
         };
       });
