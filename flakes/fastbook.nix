@@ -12,7 +12,7 @@
         pythonEnv = pkgs.python3.withPackages (ps: with ps; [ ps.pip ]);
       in {
         devShell = pkgs.mkShell {
-          buildInputs = [ pythonEnv ];
+          buildInputs = [ pythonEnv pkgs.glibcLocales pkgs.gcc ];
           shellHook = ''
             strippedPS1=$(echo -n "$PS1" | sed 's/^\\n//')
 
