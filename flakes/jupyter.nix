@@ -31,6 +31,7 @@
           shellHook = ''
             strippedPS1=$(echo -n "$PS1" | sed 's/^\\n//')
             export PS1="(jupyter) $strippedPS1"
+            ${pythonEnv}/bin/pip install --user fastbook # Add fastbook
           '';
         };
       });
