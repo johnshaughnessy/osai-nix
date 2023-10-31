@@ -1,7 +1,7 @@
 {
   inputs = {
     nixpkgs.url =
-      "github:NixOS/nixpkgs/nixos-unstable"; # Default nixpkgs, change as needed
+      "github:NixOS/nixpkgs/nixos-23.05"; # Default nixpkgs, change as needed
     flake-utils.url = "github:numtide/flake-utils";
   };
 
