@@ -14,7 +14,6 @@
   networking.hostName = "osai-fig";
   networking.networkmanager.enable = true;
 
-
   time.timeZone = "America/New_York";
 
   # Configure network proxy if necessary
@@ -38,12 +37,8 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  # Enable sound.
-  # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
 
   environment.systemPackages = with pkgs; [
     docker
@@ -51,11 +46,8 @@
     git
     github-cli
     htop
-    jq
-    nvtop
     vim
     wget
-    nixfmt
   ];
 
   nixpkgs.config.allowUnfreePredicate = pkg:
@@ -79,10 +71,8 @@
     };
   };
 
-  # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 22 ];
   networking.firewall.allowedUDPPorts = [ ];
-  # networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
@@ -109,15 +99,11 @@
   };
 
   home-manager.users.john = {
-    home.packages = with pkgs; [
-      xorg.xauth
-      dunst
-      i3
-    ];
+    home.packages = with pkgs; [ xorg.xauth dunst i3 jq nvtop ];
 
     services.dunst = {
       enable = true;
-      settings = {};
+      settings = { };
     };
 
     xsession = {
@@ -133,9 +119,6 @@
     # The state version is required and should stay at the version you
     # originally installed.
     home.stateVersion = "23.05";
-
   };
-
-
 
 }
