@@ -21,9 +21,9 @@
             ps.nbdev
             ps.pandas
             ps.scikit-learn
-            ps.azure-cognitiveservices-search-imagesearch
+            # ps.azure-cognitiveservices-search-imagesearch
             ps.sentencepiece
-            ps.jupyterlab # Add this for JupyterLab
+            ps.jupyterlab
           ]);
       in { devShell = pkgs.mkShell { buildInputs = [ pythonEnv ]; }; });
 }
