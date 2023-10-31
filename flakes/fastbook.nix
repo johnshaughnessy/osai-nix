@@ -12,7 +12,14 @@
         pythonEnv = pkgs.python3.withPackages (ps: with ps; [ ps.pip ]);
       in {
         devShell = pkgs.mkShell {
-          buildInputs = [ pythonEnv pkgs.glibcLocales pkgs.gcc pkgs.graphviz ];
+          buildInputs = [
+            pythonEnv
+            pkgs.glibcLocales
+            pkgs.gcc
+            pkgs.graphviz
+            pkgs.cudatoolkit_11
+            pkgs.cudnn_cudatoolkit_11
+          ];
           shellHook = ''
             strippedPS1=$(echo -n "$PS1" | sed 's/^\\n//')
 
@@ -28,6 +35,12 @@
             pip install fastbook
 
             export LD_LIBRARY_PATH=/nix/store/9fy9zzhf613xp0c3jsjxbjq6yp8afrsv-gcc-12.3.0-lib/lib:$LD_LIBRARY_PATH
+
+            # Set CUDA environment variables if necessary
+            export CUDA_HOME=${pkgs.cudatoolkit_11}
+            export LD_LIBRARY_PATH=${pkgs.cudatoolkit_11.lib}/lib
+            export LD_LIBRARY_PATH=${pkgs.cudnn_cudatoolkit_11}/lib:$LD_LIBRARY_PATH
+            export LD_LIBRARY_PATH=${pkgs.gcc}/lib:$LD_LIBRARY_PATH
           '';
         };
       });
