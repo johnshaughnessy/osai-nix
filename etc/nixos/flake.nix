@@ -12,6 +12,7 @@
       modules = [
         ./hardware-configuration.nix
         ./configuration.nix
+        ./john-home-manager.nix
         { imports = [ home-manager.nixosModules.home-manager ]; }
       ];
     };
