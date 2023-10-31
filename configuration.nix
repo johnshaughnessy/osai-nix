@@ -11,7 +11,7 @@
     };
   };
 
-  networking.hostName = "osai-yoda";
+  networking.hostName = "osai-iroh";
   networking.networkmanager.enable = true;
 
   time.timeZone = "America/New_York";
@@ -20,7 +20,6 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   # console = {
   #   font = "Lat2-Terminus16";
@@ -45,22 +44,6 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  # users.users.alice = {
-  #   isNormalUser = true;
-  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  #   packages = with pkgs; [
-  #     firefox
-  #     tree
-  #   ];
-  # };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  # environment.systemPackages = with pkgs; [
-  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #   wget
-  # ];
   environment.systemPackages = with pkgs; [
     docker
     docker-compose
@@ -71,12 +54,11 @@
     nvtop
     vim
     wget
+    nixfmt
   ];
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "cudatoolkit"
-  ];
-
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [ "cudatoolkit" ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -96,7 +78,7 @@
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 22 ];
-  networking.firewall.allowedUDPPorts = [];
+  networking.firewall.allowedUDPPorts = [ ];
   # networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
@@ -117,10 +99,17 @@
     extraOptions = "experimental-features = nix-command flakes";
   };
 
-
   users.users.john = {
     isNormalUser = true;
     home = "/home/john";
     extraGroups = [ "wheel" ];
+  };
+  home-manager.users.john = { pkgs, ... }: {
+    home.packages = [ pkgs.atool pkgs.httpie ];
+    programs.bash.enable = true;
+
+    # The state version is required and should stay at the version you
+    # originally installed.
+    home.stateVersion = "23.05";
   };
 }
