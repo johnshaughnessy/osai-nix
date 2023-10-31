@@ -47,10 +47,15 @@
     htop
     vim
     wget
+    cudatoolkit
+    cudaPackages.cudnn
   ];
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [ "cudatoolkit" ];
+  # Enable the NVIDIA driver
+  hardware.nvidia.modesetting.enable = true;
+  hardware.nvidia.package = pkgs.linuxPackages_latest.nvidia;
+
+  nixpkgs.config.allowUnfree = true; # NVIDIA drivers are not free software
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
