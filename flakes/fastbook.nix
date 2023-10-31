@@ -9,14 +9,15 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        pythonEnv = pkgs.python3.withPackages (ps: with ps; [ ps.pip ]);
+        pythonEnv =
+          pkgs.python3.withPackages (ps: with ps; [ ps.pip ps.graphviz ]);
       in {
         devShell = pkgs.mkShell {
           buildInputs = [ pythonEnv pkgs.glibcLocales pkgs.gcc ];
           shellHook = ''
             strippedPS1=$(echo -n "$PS1" | sed 's/^\\n//')
 
-            export PS1="(jupyter) $strippedPS1"
+            export PS1="(fastbook) $strippedPS1"
 
             # Create a Python virtual environment
             python -m venv .venv
@@ -26,6 +27,8 @@
 
             # Install fastbook
             pip install fastbook
+
+            export LD_LIBRARY_PATH=/nix/store/9fy9zzhf613xp0c3jsjxbjq6yp8afrsv-gcc-12.3.0-lib/lib:$LD_LIBRARY_PATH
           '';
         };
       });
