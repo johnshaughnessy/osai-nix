@@ -70,7 +70,7 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 22 ];
+  networking.firewall.allowedTCPPorts = [ 22 8888 ];
   networking.firewall.allowedUDPPorts = [ ];
 
   # Copy the NixOS configuration file and link it from the resulting system
