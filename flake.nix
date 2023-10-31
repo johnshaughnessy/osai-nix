@@ -14,7 +14,6 @@
         ./configuration.nix
         { imports = [ home-manager.nixosModules.home-manager ]; }
       ];
-
     };
   };
 }

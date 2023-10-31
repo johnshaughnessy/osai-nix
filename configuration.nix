@@ -14,6 +14,7 @@
   networking.hostName = "osai-iroh";
   networking.networkmanager.enable = true;
 
+
   time.timeZone = "America/New_York";
 
   # Configure network proxy if necessary
@@ -73,6 +74,8 @@
     settings = {
       PermitRootLogin = "no";
       PasswordAuthentication = true;
+      X11Forwarding = true;
+      X11DisplayOffset = 10;
     };
   };
 
@@ -104,12 +107,35 @@
     home = "/home/john";
     extraGroups = [ "wheel" ];
   };
-  home-manager.users.john = { pkgs, ... }: {
-    home.packages = [ pkgs.atool pkgs.httpie ];
+
+  home-manager.users.john = {
+    home.packages = with pkgs; [
+      xorg.xauth
+      dunst
+      i3
+    ];
+
+    services.dunst = {
+      enable = true;
+      settings = {};
+    };
+
+    xsession = {
+      enable = true; # Enable X11 session
+      windowManager.i3.enable = true; # Enable i3 window manager
+      initExtra = ''
+        ${pkgs.xorg.xauth}/bin/xauth add $DISPLAY . $XAUTHORITY
+      ''; # Initialize xauth
+    };
+
     programs.bash.enable = true;
 
     # The state version is required and should stay at the version you
     # originally installed.
     home.stateVersion = "23.05";
+
   };
+
+
+
 }
