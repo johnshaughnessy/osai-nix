@@ -17,8 +17,8 @@
             pkgs.glibcLocales
             pkgs.gcc
             pkgs.graphviz
-            pkgs.cudatoolkit_11
-            pkgs.cudnn_cudatoolkit_11
+            pkgs.cudatoolkit
+            pkgs.cudaPackages.cudnn
           ];
           shellHook = ''
             strippedPS1=$(echo -n "$PS1" | sed 's/^\\n//')
@@ -38,8 +38,8 @@
 
             # Set CUDA environment variables if necessary
             export CUDA_HOME=${pkgs.cudatoolkit_11}
-            export LD_LIBRARY_PATH=${pkgs.cudatoolkit_11.lib}/lib
-            export LD_LIBRARY_PATH=${pkgs.cudnn_cudatoolkit_11}/lib:$LD_LIBRARY_PATH
+            export LD_LIBRARY_PATH=${pkgs.cudatoolkit.lib}/lib
+            export LD_LIBRARY_PATH=${pkgs.cudaPackages.cudnn}/lib:$LD_LIBRARY_PATH
             export LD_LIBRARY_PATH=${pkgs.gcc}/lib:$LD_LIBRARY_PATH
           '';
         };

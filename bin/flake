@@ -27,4 +27,4 @@ rm -f ./flake.nix
 cp "$HOME/osai-nix/flakes/$1" ./flake.nix
 
 # Enter the development environment
-nix develop
+nix develop --impure
