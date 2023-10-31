@@ -9,11 +9,10 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        pythonEnv =
-          pkgs.python3.withPackages (ps: with ps; [ ps.pip ps.graphviz ]);
+        pythonEnv = pkgs.python3.withPackages (ps: with ps; [ ps.pip ]);
       in {
         devShell = pkgs.mkShell {
-          buildInputs = [ pythonEnv pkgs.glibcLocales pkgs.gcc ];
+          buildInputs = [ pythonEnv pkgs.glibcLocales pkgs.gcc pkgs.graphviz ];
           shellHook = ''
             strippedPS1=$(echo -n "$PS1" | sed 's/^\\n//')
 
