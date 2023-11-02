@@ -17,8 +17,8 @@
             pkgs.glibcLocales
             pkgs.gcc
             pkgs.graphviz
-            pkgs.cudatoolkit
-            pkgs.cudaPackages.cudnn
+            # pkgs.cudatoolkit
+            # pkgs.cudaPackages.cudnn
           ];
           shellHook = ''
             strippedPS1=$(echo -n "$PS1" | sed 's/^\\n//')
@@ -31,13 +31,15 @@
             # Activate the virtual environment
             source .venv/bin/activate
 
+            # Install specific versions of PyTorch, torchvision, and torchaudio
+            pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2
+
             # Install fastbook
-            pip install fastbook
+            # pip install fastbook
 
-
-            export CUDA_HOME=${pkgs.cudatoolkit}
-            export LD_LIBRARY_PATH=${pkgs.cudatoolkit.lib}/lib:$LD_LIBRARY_PATH
-            export LD_LIBRARY_PATH=${pkgs.cudaPackages.cudnn}/lib:$LD_LIBRARY_PATH
+            # export CUDA_HOME=${pkgs.cudatoolkit}
+            # export LD_LIBRARY_PATH=${pkgs.cudatoolkit.lib}/lib:$LD_LIBRARY_PATH
+            # export LD_LIBRARY_PATH=${pkgs.cudaPackages.cudnn}/lib:$LD_LIBRARY_PATH
 
             # Need to explicitly add the GCC library path to LD_LIBRARY_PATH, but since pkgs.gcc is a wrapper,
             # We need to find where the library is first.
