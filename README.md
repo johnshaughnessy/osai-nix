@@ -1,3 +1,6 @@
+| :exclamation: I gave up on the nixos configs in this repo. I never quite got everything working together harmoniously. |
+| ---------------------------------------------------------------------------------------------------------------------- |
+
 # OSAI-Nix
 
 Nix configuration files for Open Source Artificial Intelligence.
